@@ -4,7 +4,7 @@ resource "aws_vpc" "main" {
   enable_dns_support   = true
   enable_dns_hostnames = true
   tags = {
-    Name = "vscode-server-vpc"
+    Name = "code-server-vpc"
   }
 }
 
@@ -12,7 +12,7 @@ resource "aws_vpc" "main" {
 resource "aws_internet_gateway" "gw" {
   vpc_id = aws_vpc.main.id
   tags = {
-    Name = "vscode-server-igw"
+    Name = "code-server-igw"
   }
 }
 
@@ -23,7 +23,7 @@ resource "aws_subnet" "main" {
   map_public_ip_on_launch = true
   availability_zone       = "${var.aws_region}a"
   tags = {
-    Name = "vscode-server-subnet"
+    Name = "code-server-subnet"
   }
 }
 
@@ -57,7 +57,7 @@ resource "aws_route_table" "public" {
     gateway_id = aws_internet_gateway.gw.id
   }
   tags = {
-    Name = "vscode-server-rt"
+    Name = "code-server-rt"
   }
 }
 
@@ -102,6 +102,6 @@ resource "aws_instance" "example" {
   associate_public_ip_address = true
   key_name                    = aws_key_pair.deployer.key_name
   tags = {
-    Name = "vscode-server-instance"
+    Name = "code-server-instance"
   }
 }
