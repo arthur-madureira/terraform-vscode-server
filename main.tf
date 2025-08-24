@@ -89,10 +89,11 @@ resource "aws_security_group" "open_all" {
 }
 
 # Cria a instância EC2 e copia o script de instalação (não executa)
+# Cria a instância EC2 e instala o code-server automaticamente
 resource "aws_instance" "example" {
   root_block_device {
-    volume_size = 250
-    volume_type = "gp3"
+    volume_size           = 250
+    volume_type           = "gp3"
     delete_on_termination = true
   }
   ami                         = var.ami_id
@@ -101,7 +102,20 @@ resource "aws_instance" "example" {
   vpc_security_group_ids      = [aws_security_group.open_all.id]
   associate_public_ip_address = true
   key_name                    = aws_key_pair.deployer.key_name
+
+  # Combina os dois scripts em um único user_data
+  user_data = <<-EOF
+    #!/bin/bash
+    set -e
+
+    # Executa o script de instalação do code-server
+    ${file("${path.module}/scripts/install-code-server.sh")}
+
+    # Executa o script de instalação do Nginx
+    ${file("${path.module}/scripts/install-nginx-proxy.sh")}
+  EOF
+
   tags = {
-    Name = "code-server-instance"
+    Name = "vscode-server-instance"
   }
 }
