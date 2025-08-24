@@ -1,0 +1,27 @@
+# Terraform state
+*.tfstate
+*.tfstate.*
+.terraform/
+.terraform.lock.hcl
+
+# Local environment
+.env
+aws-credentials
+
+# SSH keys
+*.pem
+*.pem.pub
+
+# Logs
+*.log
+
+# Backup files
+*~
+*.bak
+
+# Python cache (caso scripts auxiliares)
+__pycache__/
+*.pyc
+
+# VSCode settings
+.vscode/
